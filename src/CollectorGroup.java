@@ -29,23 +29,23 @@ public class CollectorGroup {
 
 
 
-        HashMap<String, List<Human>> mapSurnames = humans.stream().collect(Collectors.groupingBy(Human::getSurname));
-        System.out.println(mapSurnames);
+//        HashMap<String, List<Human>> mapSurnames = humans.stream().collect(Collectors.groupingBy(Human::getSurname));
+//        System.out.println(mapSurnames);
+//
+//        HashMap<String, Long> mapCount = humans.stream()
+//                .collect(Collectors.groupingBy(Human::getSurname, Collectors.counting()));
+//
+//        System.out.println(mapCount);       //output {Lannister=2, Targaryen=2, Stark=3}
+//
+//        HashMap<String, Integer> mapFriendsSum = humans.stream()
+//                .collect(Collectors.groupingBy(Human::getSurname, Collectors.summingInt(Human::getFriendsAmount)));
+//
+//        System.out.println(mapFriendsSum); //output {Lannister=4, Targaryen=10, Stark=4}
+//
+//        HashMap<String, Set<String>> mapSet = humans.stream()
+//                .collect(Collectors.groupingBy(Human::getSurname,                   //группируем по фамилии
+//                        Collectors.mapping(Human::getName, Collectors.toSet())));   // собираем имена в Set
 
-        HashMap<String, Long> mapCount = humans.stream()
-                .collect(Collectors.groupingBy(Human::getSurname, Collectors.counting()));
-
-        System.out.println(mapCount);       //output {Lannister=2, Targaryen=2, Stark=3}
-
-        HashMap<String, Integer> mapFriendsSum = humans.stream()
-                .collect(Collectors.groupingBy(Human::getSurname, Collectors.summingInt(Human::getFriendsAmount)));
-
-        System.out.println(mapFriendsSum); //output {Lannister=4, Targaryen=10, Stark=4}
-
-        HashMap<String, Set<String>> mapSet = humans.stream()
-                .collect(Collectors.groupingBy(Human::getSurname,                   //группируем по фамилии
-                        Collectors.mapping(Human::getName, Collectors.toSet())));   // собираем имена в Set
-
-        System.out.println(mapSet);
+//        System.out.println(mapSet);
     }
 }

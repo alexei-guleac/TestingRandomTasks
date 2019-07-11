@@ -1,5 +1,7 @@
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 public class Streams {
@@ -71,48 +73,13 @@ public class Streams {
         System.out.println("\n");
 
 
-        //parallel sort
-        long m0 = System.nanoTime();
-        System.out.println(m0);
-        int max = 1000000;
-        List<String> values = new ArrayList<>(max);
 
-        for (int i = 0; i < max; i++) {
-            UUID uuid = UUID.randomUUID();
-            values.add(uuid.toString());
-        }
-        long m1 = System.nanoTime();
-        System.out.println(m1);
-        long mills = TimeUnit.NANOSECONDS.toMillis(m1 - m0);
-        System.out.println(String.format("заполнение занимает: %d ms\n", mills));
 
-        //последовательная сортировка
-        long t0 = System.nanoTime();
-        System.out.println(t0);
 
-        long count = values.stream().sorted().count();
-        System.out.println(count);
 
-        long t1 = System.nanoTime();
-        System.out.println(t1);
-        System.out.println(t1 - t0);
 
-        long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
-        System.out.println(String.format("sequential sort took: %d ms", millis));
 
-        //параллельная сортировка
-        long t01 = System.nanoTime();
-        System.out.println(t01);
 
-        long count2 = values.parallelStream().sorted().count();
-        System.out.println(count2);
-
-        long t11 = System.nanoTime();
-        System.out.println(t11);
-        System.out.println(t11 - t01);
-
-        long millis2 = TimeUnit.NANOSECONDS.toMillis(t11 - t01);
-        System.out.println(String.format("parallel sort took: %d ms\n", millis2));
 
 
 
@@ -143,5 +110,70 @@ public class Streams {
                 .anyMatch(number -> number % 2 == 0); // есть ли в Stream-e четное число
 
         System.out.println(match); //output true
+
+
+        //сумма чисел в списке
+        numbers = Arrays.asList(1, 2, 3, 5);
+
+        Optional<Integer> sum = numbers.stream()
+                .reduce((left, right) -> left + right);
+
+        sum.ifPresent(System.out::println); //output 11
+
+        //сложные опреации над элементами
+        numbers = Arrays.asList(1, 2, 3);
+
+        // 1*10 + 2*10 + 3*10
+        Integer sum1 = numbers.stream()
+                .reduce(10, (identity, val) -> identity * val, (left, right) -> left + right);      //Stream преобразовывается из 1, 2, 3 в 10, 20, 30 а послее просто суммируется
+
+        System.out.println(sum1); //output 60
+
+
+        //найти наименьшее зн-ие
+        numbers = Arrays.asList(1, 2, 3, 5, 7);
+
+        Integer min = numbers.stream()
+                .reduce(Integer.MAX_VALUE, Integer::min);
+
+        System.out.println(min); //output
+
+        //найти самую длинную строку
+        List<String> someStrings = Arrays.asList("aaa", "bbb", "ccc", "ddd", "ffff");
+
+        String s = someStrings.stream()
+                .reduce("", (left, right) -> left.length() > right.length() ? left : right);
+
+        System.out.println(s); //output ffff
+
+
+
+
+
+        //Complex search
+        //https://vertex-academy.com/tutorials/ru/java-8-stream-reduce/
+        List<Connection> network = Arrays.asList(new Connection("A", "B"),
+                new Connection("A", "C"),
+                new Connection("A", "D"),
+                new Connection("B", "C")
+        );
+
+        List<String> identity = new ArrayList<>();
+
+        BiFunction<List<String>, Connection, List<String>> accumulator = (strings, connection) -> {
+            strings.add(connection.getTo());
+            return strings;
+        };      //добавляем наши входящие узлы в список (identity) и возвращаем его
+
+        BinaryOperator<List<String>> combiner = (strings, strings2) -> {
+            strings.addAll(strings2);
+            return strings;
+        };
+
+        List<String> list = network.stream()
+                .filter(p -> "A".equals(p.getFrom()))
+                .reduce(identity, accumulator, combiner);
+
+        System.out.println(list); //output [B, C, D]
     }
 }
