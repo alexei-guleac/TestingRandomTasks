@@ -16,8 +16,8 @@ public class ZoneDateTime {
         //HashMap<String, String> map = zones.stream()
         //        .collect(Collectors.toMap(zone -> zone, ZoneDateTime::getOffset));
 
-        TreeMap<String, String> sortedMap = new TreeMap<>(map);
-        sortedMap.forEach((zone, offset) -> System.out.printf("%s (UTC%s) \n", zone, offset));
+//        TreeMap<String, String> sortedMap = new TreeMap<>(map);
+//        sortedMap.forEach((zone, offset) -> System.out.printf("%s (UTC%s) \n", zone, offset));
     }
 
     private static String getOffset(String zone) {

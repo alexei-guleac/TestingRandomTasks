@@ -23,8 +23,8 @@ public class LocaleDateTime {
         LocalDate plusWeek = now.plusWeeks(1);
         LocalDate plus3Months = now.plusMonths(3);
 
-        LocalDate now = LocalDate.now();
-        String native = now.format(DateTimeFormatter.ofPattern("dd MMM yyyy")); // 28 Jan 2018
+        now = LocalDate.now();
+        String nativ = now.format(DateTimeFormatter.ofPattern("dd MMM yyyy")); // 28 Jan 2018
         String french = now.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.FRANCE)); // 28 janv. 2018
 
     }
